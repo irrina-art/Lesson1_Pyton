@@ -7,11 +7,11 @@ from pages.shop_page import CheckoutPage
 
 def test_shop():
     driver = webdriver.Firefox()
-    driver.get(
-       "https://www.saucedemo.com/")
     driver.maximize_window()
+    url = "https://www.saucedemo.com/"
 
-    login_page = LoginPage(driver)
+    login_page = LoginPage(driver, url)
+    login_page.open()
     login_page.login("standard_user", "secret_sauce")
 
     main_page = MainPage(driver)
@@ -21,7 +21,7 @@ def test_shop():
     main_page.go_to_cart()
 
     cart_page = CartPage(driver)
-    cart_page.checkout()
+    cart_page.button_checkout()
 
     checkout_page = CheckoutPage(driver)
     checkout_page.fill_form("Irina", "Shilova", "630075")
