@@ -1,10 +1,13 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
 class LoginPage:
-    def __init__(self, driver):
+    def __init__(self, driver, url):
         self.driver = driver
+        self.url = url
+
+    def open(self):
+        self.driver.get("https://www.saucedemo.com/")
 
     def login(self, username, password):
         self.driver.find_element(By.ID, 'user-name').send_keys(username)
@@ -18,7 +21,7 @@ class MainPage:
 
     def add_to_cart(self, product_name):
         self.driver.find_element(
-            By.XPATH, f"//button[text()='Add to cart' and @data-test='{product_name}']").click()
+            By.XPATH, f"//button[text()='Add to cart' and '{product_name}']").click()
 
     def go_to_cart(self):
         self.driver.find_element(By.CLASS_NAME, 'shopping_cart_link').click()
@@ -28,9 +31,8 @@ class CartPage:
     def __init__(self, driver):
         self.driver = driver
 
-    def get_checkout(self):
-        checkout = self.driver.find_element(By.ID, "checkout")
-        checkout.click()
+    def button_checkout(self):
+        self.driver.find_element(By.ID, "checkout").click()
 
     def verify_cart_contents(self, expected_items):
         cart_items = self.driver.find_elements(By.CLASS_NAME, 'cart_item')
@@ -55,5 +57,4 @@ def verify_total(self, expected_total):
     total_element = self.driver.find_element(
         By.CLASS_NAME, 'summary_total_label')
     actual_total = total_element.text.split("$")[-1]
-    assert actual_total == expected_total, f"Итоговая стоимость{
-        actual_total} не совпадает с ожидаемой {expected_total}"
+    assert actual_total == expected_total, f"Итоговая стоимость{actual_total} не совпадает с ожидаемой {expected_total}"
