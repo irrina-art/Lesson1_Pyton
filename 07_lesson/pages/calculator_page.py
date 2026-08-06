@@ -26,4 +26,4 @@ class CalculatorPage:
 
     def get_result(self):
         result = self.wait.until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, ".screen"), "15"))
-        return result.text
+        return self.driver.find_element(By.CSS_SELECTOR, ".screen").text
